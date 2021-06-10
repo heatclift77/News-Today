@@ -4,11 +4,11 @@ import { useHistory } from 'react-router-dom'
 export default function Navbar() {
     const history = useHistory()
     const dispatch = useDispatch()
-    const { data, loading } = useSelector(state => state.articles)
+    const { data } = useSelector(state => state.articles)
     const [categories, seCategories] = useState([])
     const [state, setState] = useState({
         toggleDropDown: false,
-        categorieActive: 0,
+        categorieActive: Number(localStorage.getItem("categoryActive")),
         toggleSideNav : false,
         toggleDropDownSideNv : false
     })
@@ -53,31 +53,17 @@ export default function Navbar() {
                 </div>
             </div>
             {/* Dropdown */}
-            <div className="hidden lg:block bg-white border-t border-black py-5 fixed overflow-auto" style={{ width: "100%", zIndex: 99, top: state.toggleDropDown ? "70px" : "-120%", transition: "all ease-in-out .4s" }}>
+            <div className="hidden md:block bg-white border-t border-black py-5 fixed overflow-auto" style={{ width: "100%", zIndex: 99, top: state.toggleDropDown ? "70px" : "-120%", transition: "all ease-in-out .4s" }}>
                 <div className="px-5 overflow-auto">
                     {categories.map((item, index) => {
                         return <button className={state.categorieActive === index ? "rounded-3xl my-auto mb-5 px-5 py-1 mr-5 font-bold border-black bg-black text-white" : "rounded-3xl my-auto mb-5 px-5 py-1 mr-5 font-bold border hover:text-white hover:bg-black"} style={{outline:"none"}} onClick={()=>{
+                            localStorage.setItem("categoryActive", index)
+                            history.push("/")
                             setState({...state, categorieActive:index})
                             dispatch({type:"CHOOSE_CATEGORY", payload:item.name})
                         }}>{item.name}</button>
                     })}
                 </div>
-                {/* loading */}
-                <div className={`relative ${loading ? '': 'hidden'}`} style={{ minHeight: "40vh", top:"50%" }}>
-                    <div>
-                        <span className="w-4 h-4 absolute rounded-full bg-blue-400 animate-ping" style={{right:"43%", top:"40%"}}></span>
-                        <span className="w-4 h-4 absolute  rounded-full bg-blue-400" style={{right:"43%", top:"40%"}}></span>
-                    </div>
-                    <div>
-                        <span className="w-4 h-4 absolute rounded-full bg-blue-400 animate-ping" style={{right:"48%", top:"40%"}}></span>
-                        <span className="w-4 h-4 absolute  rounded-full bg-blue-400" style={{right:"48%", top:"40%"}}></span>
-                    </div>
-                    <div>
-                        <span className="w-4 h-4 absolute rounded-full bg-blue-400 animate-ping" style={{right:"53%", top:"40%"}}></span>
-                        <span className="w-4 h-4 absolute  rounded-full bg-blue-400" style={{right:"53%", top:"40%"}}></span>
-                    </div>
-                </div>
-                {/* end loading */}
             </div>
             {/* end Dropdown */}
             {/* sidenav mob */}
@@ -107,6 +93,7 @@ export default function Navbar() {
                         {categories.map((item, index)  => {
                             return <div className={state.categorieActive === index ? "bg-gray-300" : "hover:bg-gray-300"}>
                             <button className="px-8 py-2 text-sm" style={{outline:"none"}} onClick={()=>{
+                                localStorage.setItem("categoryActive", index)
                                 history.push("/")
                                 setState({...state, categorieActive:index})
                                 dispatch({type:"CHOOSE_CATEGORY", payload:item.name})
