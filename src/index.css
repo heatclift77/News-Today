@@ -1,13 +1,82 @@
-body {
+* {
+  padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  font-family: "Quicksand", sans-serif;
+}
+/* Hide scrollbar for Chrome, Safari and Opera, Firefox, IE and Edge */
+.hide-scroll-bar::-webkit-scrollbar {
+  display: none;
+  -ms-overflow-style: none;  
+  scrollbar-width: none;  
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.fadeout{
+  animation: fadeout .4s;
+  visibility: hidden;
+}
+
+.fadein{
+  animation: fadein .4s;
+  visibility: visible;
+}
+
+.overflow {
+  --max-lines: 3;
+  position: relative;
+  max-height: calc(var(--lh) * var(--max-lines));
+  overflow: hidden;
+  padding-right: 1rem; /* space for ellipsis */
+}
+.overflow::before {
+  position: absolute;
+  content: "...";
+/*   inset-block-end: 0;
+  inset-inline-end: 0; */
+  bottom: 0;
+  right: 0;
+}
+.overflow::after {
+  content: "";
+  position: absolute;
+/*   inset-inline-end: 0; */
+  right: 0;
+  width: 1rem;
+  height: 1rem;
+  background: white;
+}
+
+.fade {
+  position: relative;
+  height: 3.6em; /* exactly three lines */
+}
+.fade:after {
+  content: "";
+  text-align: right;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 70%;
+  height: 1.2em;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);
+}
+:disabled{
+  background: rgb(207, 207, 207) !important;
+  cursor: auto !important;
+}
+
+@keyframes fadeout{
+  from{
+    opacity: 1;
+  }to{
+    opacity: 0;
+  }
+}
+
+@keyframes fadein{
+  from{
+    opacity: 0;
+  }to{
+    opacity: 1;
+  }
 }
