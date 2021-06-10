@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import axios from 'axios'
 export default function Navbar() {
     const history = useHistory()
     const dispatch = useDispatch()
@@ -13,14 +14,17 @@ export default function Navbar() {
         toggleDropDownSideNv : false
     })
     useEffect(() => {
-        seCategories(data.categoryList)
-    }, [data])
+        axios.get("https://today.line.me/id/portaljson")
+        .then(response => {
+            seCategories(response.data.result.categoryList)
+        })
+    }, [])
     return (
         <div className="relative">
             <div className="fixed top-0 right-0 shadow" style={{ width: "100%", zIndex: 999 }}>
                 <div className="flex justify-between bg-white px-5" style={{ minHeight: "70px" }}>
                     <div className="my-auto">
-                        <h1 className="text-lg font-bold">New Today</h1>
+                        <h1 className="text-lg font-bold">News Today</h1>
                     </div>
                     <div className="hidden md:flex">
                         <div className="hidden md:block" onClick={() => {
